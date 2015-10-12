@@ -6,29 +6,29 @@
 #  apt: pkg={{ item }} state=present update_cache=yes
 #  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 #  with_items:
-#   - perl 
-#   - libnet-ssleay-perl 
+#   - perl
+#   - libnet-ssleay-perl
 #   - openssl
-#   - libauthen-pam-perl 
-#   - libpam-runtime 
-#   - libio-pty-perl 
-#   - apt-show-versions 
+#   - libauthen-pam-perl
+#   - libpam-runtime
+#   - libio-pty-perl
+#   - apt-show-versions
 #   - python
-   
-- name: webmin | Add webmin repo 
+
+- name: webmin | Add webmin repo
   apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' update_cache=yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  
-- name: webmin | Add webmin mirror repo 
+  when: webmin_enabled
+
+- name: webmin | Add webmin mirror repo
   apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-    
+  when: webmin_enabled
+
 - name: webmin | Addkey webmin
   apt_key: url=http://www.webmin.com/jcameron-key.asc  state=present
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: webmin_enabled
 
 - name: webmin | Install webmin
   apt: pkg={{ item }} state=present update_cache=yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: webmin_enabled
   with_items:
    - webmin

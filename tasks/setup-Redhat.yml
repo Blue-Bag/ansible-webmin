@@ -1,0 +1,12 @@
+---
+
+- name: Install webmin repo.
+  yum:
+    name: "{{ webmin_repo_url }}"
+    state: present
+
+- name: Import webmin GPG key.
+  rpm_key:
+    key: "{{ webmin_repo_gpg_key_url }}"
+    state: present
+
