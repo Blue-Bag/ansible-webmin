@@ -19,9 +19,9 @@
   apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' update_cache=yes
   when: webmin_enabled
 
-- name: webmin | Add webmin mirror repo
-  apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
-  when: webmin_enabled
+# - name: webmin | Add webmin mirror repo
+#   apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
+#   when: webmin_enabled
 
 - name: webmin | Addkey webmin
   apt_key: url=http://www.webmin.com/jcameron-key.asc  state=present
