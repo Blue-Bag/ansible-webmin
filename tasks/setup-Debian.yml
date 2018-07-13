@@ -15,6 +15,10 @@
 #   - apt-show-versions
 #   - python
 
+- name: webmin | Addkey webmin
+  apt_key: url=http://www.webmin.com/jcameron-key.asc  state=present
+  when: webmin_enabled
+
 - name: webmin | Add webmin repo
   apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' update_cache=yes
   when: webmin_enabled
@@ -23,9 +27,7 @@
 #   apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
 #   when: webmin_enabled
 
-- name: webmin | Addkey webmin
-  apt_key: url=http://www.webmin.com/jcameron-key.asc  state=present
-  when: webmin_enabled
+
 
 - name: webmin | Install webmin
   apt: pkg={{ item }} state=present update_cache=yes
