@@ -1,10 +1,14 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
-- include: webmin.yml
-  when: webmin_enabled 
+- include: setup-Debian.yml
+  when: webmin_enabled and ansible_os_family == 'Debian'
   tags: [webmin]
-  
+
+- include: setup-Redhat.yml
+  when: webmin_enabled and ansible_os_family == 'RedHat'
+  tags: [webmin]
+
 - name: Copy Dockerfile
   template: src=Dockerfile.j2 dest={{ docker_files_generated_directory }}/Dockerfile mode=0777
   when: docker_files_enable
