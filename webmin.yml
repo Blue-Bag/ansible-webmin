@@ -6,4 +6,4 @@
         docker_files_enable: yes
       }
 
-#- include: docker/integration-tests.yml
+#- include_tasks: docker/integration-tests.yml
