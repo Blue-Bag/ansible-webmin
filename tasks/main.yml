@@ -1,12 +1,12 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
-- include: setup-Debian.yml
-  when: webmin_enabled and ansible_os_family == 'Debian'
+- include_tasks: setup-Debian.yml
+  when: webmin_enabled and ansible_facts['os_family'] == 'Debian'
   tags: [webmin]
 
-- include: setup-Redhat.yml
-  when: webmin_enabled and ansible_os_family == 'RedHat'
+- include_tasks: setup-Redhat.yml
+  when: webmin_enabled and ansible_facts['os_family'] == 'RedHat'
   tags: [webmin]
 
 - name: Copy Dockerfile

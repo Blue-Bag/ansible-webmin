@@ -16,7 +16,10 @@
 #   - python
 
 - name: webmin | Addkey webmin
-  apt_key: url=http://www.webmin.com/jcameron-key.asc  state=present
+  ansible.builtin.get_url:
+    url: http://www.webmin.com/jcameron-key.asc
+    dest: /etc/apt/trusted.gpg.d/webmin.asc
+    mode: "0644"
   when: webmin_enabled
 
 - name: webmin | Add webmin repo
