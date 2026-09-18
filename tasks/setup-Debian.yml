@@ -15,6 +15,12 @@
 #   - apt-show-versions
 #   - python
 
+- name: webmin | Install repository management dependencies
+  ansible.builtin.apt:
+    name: python3-debian
+    state: present
+  when: webmin_enabled
+
 - name: webmin | Addkey webmin
   ansible.builtin.get_url:
     url: http://www.webmin.com/jcameron-key.asc
@@ -22,9 +28,28 @@
     mode: "0644"
   when: webmin_enabled
 
-- name: webmin | Add webmin repo
-  apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' update_cache=yes
+- name: webmin | Remove legacy webmin repo list file
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/webmin.list
+    state: absent
   when: webmin_enabled
+
+- name: webmin | Add webmin repo
+  ansible.builtin.deb822_repository:
+    name: webmin
+    types: deb
+    uris: http://download.webmin.com/download/repository
+    suites: sarge
+    components: contrib
+    signed_by: /etc/apt/trusted.gpg.d/webmin.asc
+    state: present
+  when: webmin_enabled
+  register: webmin_repo
+
+- name: webmin | Update apt cache after adding repo
+  ansible.builtin.apt:
+    update_cache: true
+  when: webmin_enabled and webmin_repo.changed
 
 # - name: webmin | Add webmin mirror repo
 #   apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
